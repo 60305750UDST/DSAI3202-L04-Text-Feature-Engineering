@@ -1,0 +1,59 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+display_name: amazon_reviews_feature_engineering
+description: Feature engineering pipeline for Amazon reviews
+
+inputs:
+  sampled_data:
+    type: uri_folder
+    path: azureml:amazon_electronics_features_v1_sampled:1
+
+settings:
+  default_compute: azureml:cpu-cluster
+
+jobs:
+  split:
+    type: command
+    component: azureml:split_dataset:1
+    inputs:
+      data: ${{parent.inputs.sampled_data}}
+      seed: 42
+      train_ratio: 0.7
+      val_ratio: 0.15
+
+  normalize_train:
+    type: command
+    component: azureml:normalize_text:1
+    inputs:
+      data: ${{parent.jobs.split.outputs.train}}
+
+  normalize_val:
+    type: command
+    component: azureml:normalize_text:1
+    inputs:
+      data: ${{parent.jobs.split.outputs.val}}
+
+  normalize_test:
+    type: command
+    component: azureml:normalize_text:1
+    inputs:
+      data: ${{parent.jobs.split.outputs.test}}
+
+  length_train:
+    type: command
+    component: azureml:length_features:1
+    inputs:
+      data: ${{parent.jobs.normalize_train.outputs.out}}
+
+  sentiment_train:
+    type: command
+    component: azureml:sentiment_features:1
+    inputs:
+      data: ${{parent.jobs.normalize_train.outputs.out}}
+
+  merge_all:
+    type: command
+    component: azureml:merge_features:1
+    inputs:
+      length: ${{parent.jobs.length_train.outputs.out}}
+      sentiment: ${{parent.jobs.sentiment_train.outputs.out}}
