@@ -1,0 +1,27 @@
+source:
+  type: parquet
+  path: azureml://subscriptions/0b475409-9d7c-4dff-a07b-084eff651874/resourcegroups/rg-60305750/workspaces/Amazon-Electronics-Lab-60305750/datastores/blobkey/paths/azureml/dynamic_sail_n02ww0wwqt/merge_all/out/
+
+index_columns:
+  - name: asin
+    type: string
+  - name: reviewerID
+    type: string
+
+features:
+  - name: review_length_words
+    type: integer
+  - name: review_length_chars
+    type: integer
+  - name: sentiment_neg
+    type: double
+  - name: sentiment_neu
+    type: double
+  - name: sentiment_pos
+    type: double
+  - name: sentiment_compound
+    type: double
+
+timestamp_column:
+  name: timestamp
+  type: timestamp
