@@ -1,0 +1,16 @@
+$schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
+name: sentiment_env
+version: 1
+conda_file:
+  name: base
+  channels:
+    - conda-forge
+    - defaults
+  dependencies:
+    - python=3.8
+    - pip
+    - pandas=1.5.3
+    - numpy=1.23.5
+    - pyarrow=12.0.1
+image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04:latest
+description: "Environment for sentiment analysis with pandas"

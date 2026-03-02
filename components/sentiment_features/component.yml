@@ -17,7 +17,4 @@ command: >-
   --data ${{inputs.data}} 
   --out ${{outputs.out}}
 
-environment:
-  build:
-    path: .
-    dockerfile_path: Dockerfile
+environment: azureml:sentiment_env:2

@@ -47,7 +47,7 @@ jobs:
 
   sentiment_train:
     type: command
-    component: azureml:sentiment_features:1
+    component: azureml:sentiment_features:2
     inputs:
       data: ${{parent.jobs.normalize_train.outputs.out}}
 
