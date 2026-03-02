@@ -84,6 +84,18 @@ Inner-joins length features and sentiment features on `['asin', 'reviewerID']` t
 
 ---
 
+## Skipped Components
+
+### `tfidf_features` and `sbert_embeddings`
+
+These components were not implemented due to time spent debugging the `sentiment_features` custom environment. Both folders exist as placeholders. The pipeline was restructured to run successfully without them.
+
+**TF-IDF:** Would use `sklearn.TfidfVectorizer` fit only on training split, applied to val/test. Settings: `max_features=5000`, `stop_words='english'`, `ngram_range=(1,2)`.
+
+**SBERT:** Would use `sentence-transformers` to generate dense semantic embeddings per review capturing contextual meaning beyond word frequency.
+
+--- 
+
 ## Environment Fix — Sentiment Component
 
 All other components (`split_dataset`, `normalize_text`, `length_features`, `merge_features`) used the pre-built `AzureML-sklearn-1.1-ubuntu20.04-py38-cpu@latest` environment, which already includes pandas and numpy.
